@@ -10,7 +10,7 @@ class Person:
 
         return Person(a, b)
 
-disease = 0
+affected = 0
 carrier = 0
 total = 10000
 
@@ -20,9 +20,10 @@ for i in range(0,total):
     res = a.combine(b)
 
     if(res.chrom.count(True) == 2):
-        disease += 1
+        affected += 1
 
     if(res.chrom.count(True) == 1):
         carrier += 1
 
-print(disease/total)
+print("aff\tcarrier")
+print(affected,"\t",carrier)
