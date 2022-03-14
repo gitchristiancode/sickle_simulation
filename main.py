@@ -1,8 +1,7 @@
 import random
+import numpy as np
 
 total = 500
-SCT = 0.1
-SCD = 0.0
 
 set = []
 pairs = []
@@ -33,28 +32,28 @@ class Person:
         return Person(a, b)
 
 
-for _ in range(0,int(total*SCT)):
-    a = Person(True,False)
-    set.append(a)
+for SC in np.arange(0,1.05,0.05):
+    set=[]
+    pairs=[]
 
-for _ in range(0,int(total*SCD)):
-    a = Person(True,True)
-    set.append(a)
+    for _ in range(0,int(total*SC)):
+        a = Person(True,False) # One True for SCT block, Two True for SCD block
+        set.append(a)
 
-for _ in range(0,int(total - total*SCD - total*SCT)):
-    a = Person(False,False)
-    set.append(a)
+    for _ in range(0,int(total - total*SC)):
+        a = Person(False,False)
+        set.append(a)
 
-for generation in range(0,100):
-    newSet = []
-    pairSet()
-    for pair in pairs:
-        for i in range(0,random.randint(1,3)):
-            newSet.append(pair[0].combine(pair[1]))
-    
-    set = newSet
+    for generation in range(0,100):
+        newSet = []
+        pairSet()
+        for pair in pairs:
+            for i in range(0,random.randint(1,3)):
+                newSet.append(pair[0].combine(pair[1]))
+        
+        set = newSet
 
     SCT = len([person for person in set if person.chrom.count(True) == 1])
     SCD = len([person for person in set if person.chrom.count(True) == 2])
 
-    print(generation, len(set), SCT, SCD, sep="\t")
+    print(len(set), round(SCT/len(set),3), round(SCD/len(set),3), sep="\t")
